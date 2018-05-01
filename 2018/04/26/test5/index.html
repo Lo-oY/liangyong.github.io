@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="Lianyong Blog">
 <meta property="og:description" content="Class.getResource()方法的使用 在使用java进行文件资源读取的时候，我们经常会用到下面一段代码123456789  	if (this.clazz != null) &amp;#123;	return this.clazz.getResource(this.path);&amp;#125;else if (this.classLoader != null) &amp;#123;	return this">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://lyennon.github.io/test5-1.png">
-<meta property="og:updated_time" content="2018-05-01T11:24:56.242Z">
+<meta property="og:image" content="http://lyennon.github.io/2018/04/26/test5/test5-1.png">
+<meta property="og:updated_time" content="2018-05-01T11:28:57.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="test5">
 <meta name="twitter:description" content="Class.getResource()方法的使用 在使用java进行文件资源读取的时候，我们经常会用到下面一段代码123456789  	if (this.clazz != null) &amp;#123;	return this.clazz.getResource(this.path);&amp;#125;else if (this.classLoader != null) &amp;#123;	return this">
-<meta name="twitter:image" content="http://lyennon.github.io/test5-1.png">
+<meta name="twitter:image" content="http://lyennon.github.io/2018/04/26/test5/test5-1.png">
 
 
 
@@ -325,7 +325,7 @@
         <h1 id="Class-getResource-方法的使用"><a href="#Class-getResource-方法的使用" class="headerlink" title="Class.getResource()方法的使用"></a>Class.getResource()方法的使用</h1><hr>
 <p>在使用java进行文件资源读取的时候，我们经常会用到下面一段代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  	<span class="keyword">if</span> (<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.clazz.getResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.classLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.classLoader.getResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ClassLoader.getSystemResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这段代码中主要调用了三个获取项目文件资源方法，这三个方法到底有什么区别，接下来我会结合一个小例子讲解一下</p>
-<p><img src="/test5-1.png" alt="code-picture"></p>
+<p><img src="../test5/test5-1.png" alt="code-picture"></p>
 
       
     </div>
