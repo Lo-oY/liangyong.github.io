@@ -84,16 +84,16 @@
 <meta name="keywords" content="java,spring,源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring源码分析(二) 容器的基础BeanFactory">
-<meta property="og:url" content="http://lyennon.github.io/2018/06/04/spring-2/index.html">
+<meta property="og:url" content="http://blog.lyennon.com/2018/06/04/spring-2/index.html">
 <meta property="og:site_name" content="Lianyong Blog">
 <meta property="og:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://lyennon.github.io/2018/06/04/spring-2/DefaultListableBeanFactory.PNG">
-<meta property="og:updated_time" content="2018-06-03T17:56:58.636Z">
+<meta property="og:image" content="http://blog.lyennon.com/2018/06/04/spring-2/DefaultListableBeanFactory.png">
+<meta property="og:updated_time" content="2018-06-03T18:03:46.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring源码分析(二) 容器的基础BeanFactory">
 <meta name="twitter:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
-<meta name="twitter:image" content="http://lyennon.github.io/2018/06/04/spring-2/DefaultListableBeanFactory.PNG">
+<meta name="twitter:image" content="http://blog.lyennon.com/2018/06/04/spring-2/DefaultListableBeanFactory.png">
 
 
 
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://lyennon.github.io/2018/06/04/spring-2/"/>
+  <link rel="canonical" href="http://blog.lyennon.com/2018/06/04/spring-2/"/>
 
 
 
@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://lyennon.github.io/2018/06/04/spring-2/">
+    <link itemprop="mainEntityOfPage" href="http://blog.lyennon.com/2018/06/04/spring-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liang yong">
@@ -324,7 +324,7 @@
 
       
         <p>Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory</p>
-<h2 id="DefaultListableBeanFactory类图"><a href="#DefaultListableBeanFactory类图" class="headerlink" title="DefaultListableBeanFactory类图"></a>DefaultListableBeanFactory类图</h2><p><img src="/2018/06/04/spring-2/DefaultListableBeanFactory.PNG" alt="uml-picture"></p>
+<h2 id="DefaultListableBeanFactory类图"><a href="#DefaultListableBeanFactory类图" class="headerlink" title="DefaultListableBeanFactory类图"></a>DefaultListableBeanFactory类图</h2><p><img src="/2018/06/04/spring-2/DefaultListableBeanFactory.png" alt="uml-picture"></p>
 <ol>
 <li>AliasRegistry: 定义对alias的简单增删改查操作</li>
 <li>SimpleAliasRegistry: 实现了了AliasRegistry接口，通过map作为缓存</li>
