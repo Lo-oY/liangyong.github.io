@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://www.lyennon.com/test5.html</loc>
+    <lastmod>2018-06-10T14:32:36.487Z</lastmod>
+    <data>
+        <display>
+        <title>java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别</title>
+        <pubTime>2018-04-26T13:45:28.000Z</pubTime>
+        
+        <tag>java</tag>
+         
+        <tag>getResource</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.lyennon.com/spring-1.html</loc>
     <lastmod>2018-06-10T14:32:35.623Z</lastmod>
     <data>
@@ -74,25 +93,6 @@
              
               <breadCrumb title="spring" url="http://www.lyennon.com/categories/spring/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.lyennon.com/test5.html</loc>
-    <lastmod>2018-06-10T13:30:02.598Z</lastmod>
-    <data>
-        <display>
-        <title>java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别</title>
-        <pubTime>2018-04-26T13:45:28.000Z</pubTime>
-        
-        <tag>java</tag>
-         
-        <tag>getResource</tag>
-         
-         
-           
         </display>
     </data>
     </url>
