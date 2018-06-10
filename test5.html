@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="java,spring,source code," />
+  <meta name="keywords" content="java,getResource," />
 
 
 
@@ -80,20 +80,20 @@
 
 
 
-<meta name="description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
-<meta name="keywords" content="java,spring,source code">
+<meta name="description" content="Class.getResource()方法的使用 在使用java进行文件资源读取的时候，我们经常会用到下面一段代码123456789  	if (this.clazz != null) &amp;#123;	return this.clazz.getResource(this.path);&amp;#125;else if (this.classLoader != null) &amp;#123;	return this">
+<meta name="keywords" content="java,getResource">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码分析(二) 容器的基础BeanFactory">
-<meta property="og:url" content="http://blog.lyennon.com/2018/06/04/spring-2/index.html">
+<meta property="og:title" content="java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别">
+<meta property="og:url" content="http://www.lyennon.com/test5.html">
 <meta property="og:site_name" content="Lianyong Blog">
-<meta property="og:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
+<meta property="og:description" content="Class.getResource()方法的使用 在使用java进行文件资源读取的时候，我们经常会用到下面一段代码123456789  	if (this.clazz != null) &amp;#123;	return this.clazz.getResource(this.path);&amp;#125;else if (this.classLoader != null) &amp;#123;	return this">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.lyennon.com/2018/06/04/spring-2/DefaultListableBeanFactory.png">
-<meta property="og:updated_time" content="2018-06-08T18:28:40.515Z">
+<meta property="og:image" content="http://www.lyennon.com/test5-1.png">
+<meta property="og:updated_time" content="2018-06-08T19:05:14.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码分析(二) 容器的基础BeanFactory">
-<meta name="twitter:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
-<meta name="twitter:image" content="http://blog.lyennon.com/2018/06/04/spring-2/DefaultListableBeanFactory.png">
+<meta name="twitter:title" content="java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别">
+<meta name="twitter:description" content="Class.getResource()方法的使用 在使用java进行文件资源读取的时候，我们经常会用到下面一段代码123456789  	if (this.clazz != null) &amp;#123;	return this.clazz.getResource(this.path);&amp;#125;else if (this.classLoader != null) &amp;#123;	return this">
+<meta name="twitter:image" content="http://www.lyennon.com/test5-1.png">
 
 
 
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.lyennon.com/2018/06/04/spring-2/"/>
+  <link rel="canonical" href="http://www.lyennon.com/test5.html"/>
 
 
 
 
 
-  <title>Spring源码分析(二) 容器的基础BeanFactory | Lianyong Blog</title>
+  <title>java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别 | Lianyong Blog</title>
   
 
 
@@ -256,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.lyennon.com/2018/06/04/spring-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.lyennon.com/test5.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liang yong">
@@ -273,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码分析(二) 容器的基础BeanFactory</h1>
+          <h1 class="post-title" itemprop="name headline">java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别</h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T01:53:57+08:00">
-                2018-06-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-26T21:45:28+08:00">
+                2018-04-26
               </time>
             
 
@@ -305,8 +305,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/06/04/spring-2/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/06/04/spring-2/" itemprop="commentsCount"></span>
+                <a href="/test5.html#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="test5.html" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -334,24 +334,15 @@
       
 
       
-        <p>Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory</p>
-<h2 id="DefaultListableBeanFactory类图"><a href="#DefaultListableBeanFactory类图" class="headerlink" title="DefaultListableBeanFactory类图"></a>DefaultListableBeanFactory类图</h2><p><img src="/2018/06/04/spring-2/DefaultListableBeanFactory.png" alt="uml-picture"></p>
+        <h1 id="Class-getResource-方法的使用"><a href="#Class-getResource-方法的使用" class="headerlink" title="Class.getResource()方法的使用"></a>Class.getResource()方法的使用</h1><hr>
+<p>在使用java进行文件资源读取的时候，我们经常会用到下面一段代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  	<span class="keyword">if</span> (<span class="keyword">this</span>.clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.clazz.getResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.classLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.classLoader.getResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> ClassLoader.getSystemResource(<span class="keyword">this</span>.path);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码中主要调用了三个获取项目文件资源方法，这三个方法到底有什么区别，接下来我会结合一个小例子讲解一下</p>
+<p><img src="/test5-1.png" alt="code-picture"></p>
+<p>从上面的截图中，我们可以根据代码的输出结果分析一下class.getResource和classloader.getResource的区别，总结以下几点：</p>
 <ol>
-<li>AliasRegistry: 定义对alias的简单增删改查操作</li>
-<li>SimpleAliasRegistry: 实现了了AliasRegistry接口，通过map作为缓存</li>
-<li>SingletonBeanRegistry: 定义对单例的注册，获取</li>
-<li>BeanFactory： 定义获取bean及获取bean的各种属性</li>
-<li>DefaultSingletonBeanRegistry: 实现了SingletonBeanRegistry</li>
-<li>HierarchicalBeanFactory: 在BeanFactory的基础上增加了parentFacotry</li>
-<li>BeanDefinitionRegistry: 定义对BeanDefinition的各种增删改操作</li>
-<li>FactoryBeanRegistry： 在DefaultSingletonBeanRegistry基础上增加了对FactoryBean的特殊功能处理</li>
-<li>ConfigurableBeanFactory: 提供配置Factory的方法</li>
-<li>ListableBeanFactory: 定义通过各种条件获取bean的方法</li>
-<li>AbstractBeanFactory：综合FactoryBeanRegistrySupport和ConfigurableBeanFactory的方法</li>
-<li>AutoWireCapableBeanFactory：提供创建bean，自动注入，初始化以及应用bean的后处理器</li>
-<li>AbstractAutowireCapableBeanFactory: 综合AbstractBeanFactory以及实现了AutowireCapableBeanFactory接口</li>
-<li>ConfigurableListableBeanFactory: BeanFactory配置清单，制定忽略类型及接口</li>
-<li>DefaultListableBeanFactory: 综合以上所有功能，主要是对Bean注册后的处理</li>
+<li>class的getResource不加“/”，会从class这个类所在的路径开始往下搜索资源，如果加上“/”,会从工程的根目录，也就是截图里的target/classes这个路径下开始搜索资源</li>
+<li>classloader的getResource不加“/”，会从工程的根目录，也就是截图里的target/classes这个路径下开始搜索资源，如果加上“/”，就会返回null。</li>
+<li>classLoader的getSystemResource方法类似于classLoader的方法，相当于使用系统的classLoader然后调用getResource</li>
 </ol>
 
       
@@ -372,9 +363,7 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/spring/" rel="tag"># spring</a>
-          
-            <a href="/tags/source-code/" rel="tag"># source code</a>
+            <a href="/tags/getResource/" rel="tag"># getResource</a>
           
         </div>
       
@@ -387,8 +376,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/20/spring-1/" rel="next" title="Spring源码分析(一) 结构组成">
-                <i class="fa fa-chevron-left"></i> Spring源码分析(一) 结构组成
+              <a href="/test2.html" rel="next" title="test2">
+                <i class="fa fa-chevron-left"></i> test2
               </a>
             
           </div>
@@ -396,6 +385,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/spring-1.html" rel="prev" title="Spring源码分析(一) 结构组成">
+                Spring源码分析(一) 结构组成 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -532,7 +525,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultListableBeanFactory类图"><span class="nav-number">1.</span> <span class="nav-text">DefaultListableBeanFactory类图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Class-getResource-方法的使用"><span class="nav-number">1.</span> <span class="nav-text">Class.getResource()方法的使用</span></a></li></ol></div>
             
 
           </div>

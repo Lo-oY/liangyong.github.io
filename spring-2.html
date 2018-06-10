@@ -80,18 +80,20 @@
 
 
 
-<meta name="description" content="Spring源码主要的包为：  bean：主要包含bean的定义，读取代码配置的bean，储存bean的工厂beanFactory，实例化bean，为bean注入属性的一些接口。具体为BeanDefinition，XmlBeanDefinitionReader，DefaultListableBeanFactory，BeanUtils，BeanWrapperImpl core：主要包含一些核心的工具">
+<meta name="description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
 <meta name="keywords" content="java,spring,source code">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码分析(一) 结构组成">
-<meta property="og:url" content="http://blog.lyennon.com/2018/05/20/spring-1/index.html">
+<meta property="og:title" content="Spring源码分析(二) 容器的基础BeanFactory">
+<meta property="og:url" content="http://www.lyennon.com/spring-2.html">
 <meta property="og:site_name" content="Lianyong Blog">
-<meta property="og:description" content="Spring源码主要的包为：  bean：主要包含bean的定义，读取代码配置的bean，储存bean的工厂beanFactory，实例化bean，为bean注入属性的一些接口。具体为BeanDefinition，XmlBeanDefinitionReader，DefaultListableBeanFactory，BeanUtils，BeanWrapperImpl core：主要包含一些核心的工具">
+<meta property="og:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-08T18:30:20.329Z">
+<meta property="og:image" content="http://www.lyennon.com/DefaultListableBeanFactory.png">
+<meta property="og:updated_time" content="2018-06-08T18:28:40.515Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码分析(一) 结构组成">
-<meta name="twitter:description" content="Spring源码主要的包为：  bean：主要包含bean的定义，读取代码配置的bean，储存bean的工厂beanFactory，实例化bean，为bean注入属性的一些接口。具体为BeanDefinition，XmlBeanDefinitionReader，DefaultListableBeanFactory，BeanUtils，BeanWrapperImpl core：主要包含一些核心的工具">
+<meta name="twitter:title" content="Spring源码分析(二) 容器的基础BeanFactory">
+<meta name="twitter:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
+<meta name="twitter:image" content="http://www.lyennon.com/DefaultListableBeanFactory.png">
 
 
 
@@ -121,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.lyennon.com/2018/05/20/spring-1/"/>
+  <link rel="canonical" href="http://www.lyennon.com/spring-2.html"/>
 
 
 
 
 
-  <title>Spring源码分析(一) 结构组成 | Lianyong Blog</title>
+  <title>Spring源码分析(二) 容器的基础BeanFactory | Lianyong Blog</title>
   
 
 
@@ -254,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.lyennon.com/2018/05/20/spring-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.lyennon.com/spring-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liang yong">
@@ -271,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码分析(一) 结构组成</h1>
+          <h1 class="post-title" itemprop="name headline">Spring源码分析(二) 容器的基础BeanFactory</h1>
         
 
         <div class="post-meta">
@@ -283,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T23:01:22+08:00">
-                2018-05-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T01:53:57+08:00">
+                2018-06-04
               </time>
             
 
@@ -303,8 +305,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/05/20/spring-1/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/05/20/spring-1/" itemprop="commentsCount"></span>
+                <a href="/spring-2.html#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="spring-2.html" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -332,15 +334,24 @@
       
 
       
-        <p>Spring源码主要的包为：</p>
+        <p>Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory</p>
+<h2 id="DefaultListableBeanFactory类图"><a href="#DefaultListableBeanFactory类图" class="headerlink" title="DefaultListableBeanFactory类图"></a>DefaultListableBeanFactory类图</h2><p><img src="/DefaultListableBeanFactory.png" alt="uml-picture"></p>
 <ol>
-<li>bean：主要包含bean的定义，读取代码配置的bean，储存bean的工厂beanFactory，实例化bean，为bean注入属性的一些接口。具体为BeanDefinition，XmlBeanDefinitionReader，DefaultListableBeanFactory，BeanUtils，BeanWrapperImpl</li>
-<li>core：主要包含一些核心的工具类，Spring的其他组件都要使用到这个包里的类。主要有一些反射方法的工具类，代理类等其他一些类</li>
-<li>context: 主要是基于bean和core模块基础之上，进行了一次封装和一些扩展，包括国际化资源支持，jmx，schedul，ejb等j2ee的特性的支持</li>
-<li>aop：即面向切面编程，是基于aspectj的一个面向切面编程的实现。定义了方法拦截器和切点。主要的一个类是AnnotationAwareAspectJAutoProxyCreator,这个类是<aspectj-autoprox>这个标签的解析类，可以开启spring的aop注解，通过扫描bean根据注解生成代理类实现面向切面编程，主要继承了BeanFactoryAware，用于传递beanfactory和BeanPostProcessor，用于拦截bean的实例化</aspectj-autoprox></li>
-<li>web:http协议的包。定义了和http容器有关的一些实体类，例如ServletServerHttpRequest，ServletServerHttpResponse等用来解析http数据，还有对web service的支持</li>
-<li>webmvc：spring的web开发的主要包。主要的一个类是DispatcherServlet，负责对http请求进行分发处理，其中关键的两个成员变量是HandlerMapping和HandlerAdapter，HandlerMapping 负责映射url，HandlerAdapter负责处理请求。resources文件夹下有一个配置文件DispatcherServlet.properties，配置了一些默认的属性。还有一个是ClassPathXmlApplicationContext，包含了一些上下文信息，还有渲染视图的一些view。</li>
-<li>jdbc：封装了对数据库的一些操作，数据源的定义.</li>
+<li>AliasRegistry: 定义对alias的简单增删改查操作</li>
+<li>SimpleAliasRegistry: 实现了了AliasRegistry接口，通过map作为缓存</li>
+<li>SingletonBeanRegistry: 定义对单例的注册，获取</li>
+<li>BeanFactory： 定义获取bean及获取bean的各种属性</li>
+<li>DefaultSingletonBeanRegistry: 实现了SingletonBeanRegistry</li>
+<li>HierarchicalBeanFactory: 在BeanFactory的基础上增加了parentFacotry</li>
+<li>BeanDefinitionRegistry: 定义对BeanDefinition的各种增删改操作</li>
+<li>FactoryBeanRegistry： 在DefaultSingletonBeanRegistry基础上增加了对FactoryBean的特殊功能处理</li>
+<li>ConfigurableBeanFactory: 提供配置Factory的方法</li>
+<li>ListableBeanFactory: 定义通过各种条件获取bean的方法</li>
+<li>AbstractBeanFactory：综合FactoryBeanRegistrySupport和ConfigurableBeanFactory的方法</li>
+<li>AutoWireCapableBeanFactory：提供创建bean，自动注入，初始化以及应用bean的后处理器</li>
+<li>AbstractAutowireCapableBeanFactory: 综合AbstractBeanFactory以及实现了AutowireCapableBeanFactory接口</li>
+<li>ConfigurableListableBeanFactory: BeanFactory配置清单，制定忽略类型及接口</li>
+<li>DefaultListableBeanFactory: 综合以上所有功能，主要是对Bean注册后的处理</li>
 </ol>
 
       
@@ -376,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/26/test5/" rel="next" title="java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别">
-                <i class="fa fa-chevron-left"></i> java中关于class.getResource和classLoader.getResource，getSystemResource方法的区别
+              <a href="/spring-1.html" rel="next" title="Spring源码分析(一) 结构组成">
+                <i class="fa fa-chevron-left"></i> Spring源码分析(一) 结构组成
               </a>
             
           </div>
@@ -385,10 +396,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/04/spring-2/" rel="prev" title="Spring源码分析(二) 容器的基础BeanFactory">
-                Spring源码分析(二) 容器的基础BeanFactory <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -445,8 +452,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -506,6 +522,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultListableBeanFactory类图"><span class="nav-number">1.</span> <span class="nav-text">DefaultListableBeanFactory类图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
