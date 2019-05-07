@@ -67,7 +67,7 @@
 
 
 
-  <meta name="keywords" content="java,spring,source code,DefaultListableBeanFactory," />
+  <meta name="keywords" content="java,spring boot,session共享," />
 
 
 
@@ -78,20 +78,20 @@
 
 
 
-<meta name="description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
-<meta name="keywords" content="java,spring,source code,DefaultListableBeanFactory">
+<meta name="description" content="首先新建一个gradle工程 在setting.gradle文件，配置依赖  12345678910111213141516171819202122232425262728293031   group &apos;com.ly&apos;   version &apos;1.0-SNAPSHOT&apos;  buildscript &amp;#123;    repositories &amp;#123;      mavenCentral()">
+<meta name="keywords" content="java,spring boot,session共享">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码分析(二) 容器的基础BeanFactory">
-<meta property="og:url" content="http://www.lyennon.com/spring-2.html">
+<meta property="og:title" content="SpringBoot实现Session共享">
+<meta property="og:url" content="http://www.lyennon.com/springSession-1.html">
 <meta property="og:site_name" content="Liangyong Blog">
-<meta property="og:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
+<meta property="og:description" content="首先新建一个gradle工程 在setting.gradle文件，配置依赖  12345678910111213141516171819202122232425262728293031   group &apos;com.ly&apos;   version &apos;1.0-SNAPSHOT&apos;  buildscript &amp;#123;    repositories &amp;#123;      mavenCentral()">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.lyennon.com/spring-2/DefaultListableBeanFactory.png">
-<meta property="og:updated_time" content="2018-06-10T14:32:34.483Z">
+<meta property="og:image" content="http://www.lyennon.com/springSession-1/springSession-1.png">
+<meta property="og:updated_time" content="2018-10-15T07:08:07.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码分析(二) 容器的基础BeanFactory">
-<meta name="twitter:description" content="Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory DefaultListableBeanFactory类图  AliasRegistry: 定义对alias的简单增删改查操作 Simple">
-<meta name="twitter:image" content="http://www.lyennon.com/spring-2/DefaultListableBeanFactory.png">
+<meta name="twitter:title" content="SpringBoot实现Session共享">
+<meta name="twitter:description" content="首先新建一个gradle工程 在setting.gradle文件，配置依赖  12345678910111213141516171819202122232425262728293031   group &apos;com.ly&apos;   version &apos;1.0-SNAPSHOT&apos;  buildscript &amp;#123;    repositories &amp;#123;      mavenCentral()">
+<meta name="twitter:image" content="http://www.lyennon.com/springSession-1/springSession-1.png">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://www.lyennon.com/spring-2.html"/>
+  <link rel="canonical" href="http://www.lyennon.com/springSession-1.html"/>
 
 
 
 
 
-  <title>Spring源码分析(二) 容器的基础BeanFactory | Liangyong Blog</title>
+  <title>SpringBoot实现Session共享 | Liangyong Blog</title>
   
 
 
@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.lyennon.com/spring-2.html">
+    <link itemprop="mainEntityOfPage" href="http://www.lyennon.com/springSession-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liang yong">
@@ -271,7 +271,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Spring源码分析(二) 容器的基础BeanFactory</h2>
+          <h2 class="post-title" itemprop="name headline">SpringBoot实现Session共享</h2>
         
 
         <div class="post-meta">
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T01:53:57+08:00">
-                2018-06-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-28T14:48:25+08:00">
+                2018-06-28
               </time>
             
 
@@ -343,24 +343,15 @@
       
 
       
-        <p>Spring简单来说，是一个bean的容器，在spring启动的时候根据配置自动生成java类的对象，并保存在Spring中。这个储存java对象的类就是Spring的BeanFactory，最常用的实现类是DefaultListableBeanFactory</p>
-<h2 id="DefaultListableBeanFactory类图"><a href="#DefaultListableBeanFactory类图" class="headerlink" title="DefaultListableBeanFactory类图"></a>DefaultListableBeanFactory类图</h2><p><img src="/spring-2/DefaultListableBeanFactory.png" alt="uml-picture"></p>
-<ol>
-<li>AliasRegistry: 定义对alias的简单增删改查操作</li>
-<li>SimpleAliasRegistry: 实现了了AliasRegistry接口，通过map作为缓存</li>
-<li>SingletonBeanRegistry: 定义对单例的注册，获取</li>
-<li>BeanFactory： 定义获取bean及获取bean的各种属性</li>
-<li>DefaultSingletonBeanRegistry: 实现了SingletonBeanRegistry</li>
-<li>HierarchicalBeanFactory: 在BeanFactory的基础上增加了parentFacotry</li>
-<li>BeanDefinitionRegistry: 定义对BeanDefinition的各种增删改操作</li>
-<li>FactoryBeanRegistry： 在DefaultSingletonBeanRegistry基础上增加了对FactoryBean的特殊功能处理</li>
-<li>ConfigurableBeanFactory: 提供配置Factory的方法</li>
-<li>ListableBeanFactory: 定义通过各种条件获取bean的方法</li>
-<li>AbstractBeanFactory：综合FactoryBeanRegistrySupport和ConfigurableBeanFactory的方法</li>
-<li>AutoWireCapableBeanFactory：提供创建bean，自动注入，初始化以及应用bean的后处理器</li>
-<li>AbstractAutowireCapableBeanFactory: 综合AbstractBeanFactory以及实现了AutowireCapableBeanFactory接口</li>
-<li>ConfigurableListableBeanFactory: BeanFactory配置清单，制定忽略类型及接口</li>
-<li>DefaultListableBeanFactory: 综合以上所有功能，主要是对Bean注册后的处理</li>
+        <ol>
+<li>首先新建一个gradle工程</li>
+<li><p>在setting.gradle文件，配置依赖</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">   group <span class="string">'com.ly'</span></span><br><span class="line">   version <span class="string">'1.0-SNAPSHOT'</span></span><br><span class="line"></span><br><span class="line">  buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">      mavenCentral()</span><br><span class="line">  &#125;</span><br><span class="line">  dependencies &#123;</span><br><span class="line">      classpath(<span class="string">"org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE"</span>)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">apply plugin: <span class="string">'java'</span></span><br><span class="line">apply plugin: <span class="string">'eclipse'</span></span><br><span class="line">apply plugin: <span class="string">'idea'</span></span><br><span class="line">apply plugin: <span class="string">'org.springframework.boot'</span></span><br><span class="line">apply plugin: <span class="string">'io.spring.dependency-management'</span></span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sourceCompatibility = <span class="number">1.8</span></span><br><span class="line">targetCompatibility = <span class="number">1.8</span></span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile(<span class="string">"org.springframework.boot:spring-boot-starter-web"</span>)</span><br><span class="line">    compile(<span class="string">"org.springframework.session:spring-session-data-redis"</span>)</span><br><span class="line">    compile <span class="string">"org.springframework.boot:spring-boot-starter-data-redis"</span></span><br><span class="line">    testCompile(<span class="string">'org.springframework.boot:spring-boot-starter-test'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建一个Controller  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/index"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(<span class="string">"name"</span>, <span class="string">"liang"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"123"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>4.在本地开启redis服务，运行应用，打开<a href="http://localhost:8080/index。" target="_blank" rel="noopener">http://localhost:8080/index。</a><br>5.查看reids数据，会看到seesion的数据<br><img src="/springSession-1/springSession-1.png" alt="session-picture"></p>
+</li>
 </ol>
 
       
@@ -381,11 +372,9 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/spring/" rel="tag"># spring</a>
+            <a href="/tags/spring-boot/" rel="tag"># spring boot</a>
           
-            <a href="/tags/source-code/" rel="tag"># source code</a>
-          
-            <a href="/tags/DefaultListableBeanFactory/" rel="tag"># DefaultListableBeanFactory</a>
+            <a href="/tags/session共享/" rel="tag"># session共享</a>
           
         </div>
       
@@ -398,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/spring-1.html" rel="next" title="Spring源码分析(一) 结构组成">
-                <i class="fa fa-chevron-left"></i> Spring源码分析(一) 结构组成
+              <a href="/spring-4.html" rel="next" title="Spring源码分析(四) bean标签的解析及注册">
+                <i class="fa fa-chevron-left"></i> Spring源码分析(四) bean标签的解析及注册
               </a>
             
           </div>
@@ -408,8 +397,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/spring-3.html" rel="prev" title="Spring源码分析(三) 配置文件的读取XmlBeanDefinitionReader">
-                Spring源码分析(三) 配置文件的读取XmlBeanDefinitionReader <i class="fa fa-chevron-right"></i>
+              <a href="/redis-1.html" rel="prev" title="Ubuntu系统Redis集群搭建">
+                Ubuntu系统Redis集群搭建 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -467,17 +456,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -537,22 +517,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultListableBeanFactory类图"><span class="nav-number">1.</span> <span class="nav-text">DefaultListableBeanFactory类图</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
